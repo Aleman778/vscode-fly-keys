@@ -48,14 +48,6 @@
       {
         "command": "vscode-fly-keys.toKeymapO",
         "title": "Activate keymap leader + O"
-      },
-      {
-        "command": "vscode-fly-keys.cursorLineStart",
-        "title": "Activate keymap leader + O"
-      },
-      {
-        "command": "vscode-fly-keys.cursorLineEnd",
-        "title": "Activate keymap leader + O"
       }
     ],
     "keybindings": [
@@ -81,22 +73,22 @@
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
-        "command": "cursorUp",
+        "command": "vscode-fly-keys.cursorUp",
         "key": "o",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
-        "command": "cursorRight",
+        "command": "vscode-fly-keys.cursorRight",
         "key": ";",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
-        "command": "cursorDown",
+        "command": "vscode-fly-keys.cursorDown",
         "key": "l",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
-        "command": "cursorLeft",
+        "command": "vscode-fly-keys.cursorLeft",
         "key": "k",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
@@ -106,17 +98,17 @@
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
-        "command": "cursorLineEnd",
+        "command": "vscode-fly-keys.cursorLineEnd",
         "key": "'",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
-        "command": "cursorWordLeft",
+        "command": "vscode-fly-keys.cursorWordPartLeft",
         "key": "i",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
-        "command": "cursorWordRight",
+        "command": "vscode-fly-keys.cursorWordPartRight",
         "key": "p",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       }
