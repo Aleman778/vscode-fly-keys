@@ -1,0 +1,139 @@
+{
+  "name": "vscode-fly-keys",
+  "displayName": "vscode-fly-keys",
+  "description": "VSCode implementation of emacs xah-fly-keys package which is an easier and more comfortable modal editor than vim.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.88.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscode-fly-keys.toCommandMode",
+        "title": "Activate command mode"
+      },
+      {
+        "command": "vscode-fly-keys.toInsertMode",
+        "title": "Activate insert mode"
+      },
+      {
+        "command": "vscode-fly-keys.toVisualMode",
+        "title": "Activate visual mode"
+      },
+      {
+        "command": "vscode-fly-keys.toCommandMode",
+        "title": "Activate command mode"
+      },
+      {
+        "command": "vscode-fly-keys.toLeaderMode",
+        "title": "Activate insert mode"
+      },
+      {
+        "command": "vscode-fly-keys.toKeymapI",
+        "title": "Activate keymap leader + I"
+      },
+      {
+        "command": "vscode-fly-keys.toKeymapJ",
+        "title": "Activate keymap leader + J"
+      },
+      {
+        "command": "vscode-fly-keys.toKeymapD",
+        "title": "Activate keymap leader + D"
+      },
+      {
+        "command": "vscode-fly-keys.toKeymapO",
+        "title": "Activate keymap leader + O"
+      },
+      {
+        "command": "vscode-fly-keys.cursorLineStart",
+        "title": "Activate keymap leader + O"
+      },
+      {
+        "command": "vscode-fly-keys.cursorLineEnd",
+        "title": "Activate keymap leader + O"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "vscode-fly-keys.toCommandMode",
+        "key": "home",
+        "mac": "escape",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "vscode-fly-keys.toInsertMode",
+        "key": "f",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.toggleVisualMode",
+        "key": "t",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.toLeaderMode",
+        "key": "space",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "cursorUp",
+        "key": "o",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "cursorRight",
+        "key": ";",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "cursorDown",
+        "key": "l",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "cursorLeft",
+        "key": "k",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.cursorLineStart",
+        "key": "j",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "cursorLineEnd",
+        "key": "'",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "cursorWordLeft",
+        "key": "i",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "cursorWordRight",
+        "key": "p",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.88.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3",
+    "@vscode/test-cli": "^0.0.8",
+    "@vscode/test-electron": "^2.3.9"
+  }
+}
