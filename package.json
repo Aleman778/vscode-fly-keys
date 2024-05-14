@@ -9,7 +9,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],  
   "main": "./extension.js",
   "contributes": {
     "commands": [
@@ -57,6 +59,7 @@
         "mac": "escape",
         "when": "editorTextFocus"
       },
+
       {
         "command": "vscode-fly-keys.toInsertMode",
         "key": "f",
@@ -70,6 +73,11 @@
       {
         "command": "vscode-fly-keys.toLeaderMode",
         "key": "space",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.toLeaderMode",
+        "key": "backspace",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
@@ -111,6 +119,52 @@
         "command": "vscode-fly-keys.cursorWordPartRight",
         "key": "p",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.cursorWordPartRight",
+        "key": "p",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "workbench.action.closeEditorsAndGroup",
+        "key": "3",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "workbench.action.splitEditorDown",
+        "key": "4",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.cut",
+        "key": "x",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.copy",
+        "key": "c",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.paste",
+        "key": "v",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.undo",
+        "key": "y",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+
+      {
+        "command": "vscode-fly-keys.splitEditorToRightGroup",
+        "key": "4",
+        "when": "editorTextFocus && vscode-fly-keys.mode == leader"
+      },
+      {
+        "command": "vscode-fly-keys.redo",
+        "key": "y",
+        "when": "editorTextFocus && vscode-fly-keys.mode == leader"
       }
     ]
   },

@@ -21,19 +21,35 @@ const globalState = {
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-	console.log("`vscode-fly-keys` is activated")
-  setEditingMode(MODE_COMMAND)
-
 	context.subscriptions.push(
     vscode.commands.registerCommand('type', async args => {
       const text = args.text;
-      if (vscode.window.activeTextEditor && globalState.mode == MODE_COMMAND) {
+      
+      if (vscode.window.activeTextEditor && globalState.mode == MODE_INSERT) {
+        await vscode.commands.executeCommand('default:type', { text });
+      } else if (vscode.window.activeTextEditor && globalState.mode == MODE_COMMAND) {
         vscode.window.showInformationMessage(`Run command: ${text}`);
       } else {
-        await vscode.commands.executeCommand('default:type', { text });
+        setEditingMode(MODE_COMMAND)
       }
     }),
-		vscode.commands.registerCommand('vscode-fly-keys.toggleExtension', function() {
+    wrap('vscode-fly-keys.splitEditorToRightGroup', 'workbench.action.splitEditorToRightGroup'),
+    wrap('vscode-fly-keys.copy', 'editor.action.clipboardCopyAction'),
+    wrap('vscode-fly-keys.paste', 'editor.action.clipboardPasteAction'),
+    wrap('vscode-fly-keys.undo', 'undo'),
+    wrap('vscode-fly-keys.redo', 'redo'),
+		vscode.commands.registerCommand('vscode-fly-keys.cut', function() {
+      const editor = vscode.window.activeTextEditor;
+      if (editor) {
+        let position = editor.selection.active;
+        if (position.line > editor.selection.anchor.line) {
+          position = editor.selection.anchor
+        }
+        vscode.commands.executeCommand('editor.action.clipboardCutAction')
+        editor.selection = new vscode.Selection(position, position);
+      }
+		}),
+  	vscode.commands.registerCommand('vscode-fly-keys.toggleExtension', function() {
 			globalState.active = !globalState.active;
 		}),
 		vscode.commands.registerCommand('vscode-fly-keys.toCommandMode', function() {
@@ -99,6 +115,10 @@ function activate(context) {
       moveCursorToLineOrBlock(1)
 		})
 	)
+  
+  vscode.window.showInformationMessage('Command mode active');
+  setEditingMode(MODE_COMMAND)
+  setVisualMode(false)
 }
 
 function moveCursorToSubword(dir) {
@@ -167,6 +187,14 @@ function moveCursorToLineOrBlock (dir) {
   }
 }
 
+function wrap(ourId, execId) {
+  return vscode.commands.registerCommand(ourId, function () {
+    vscode.commands.executeCommand(execId)
+    setEditingMode(MODE_COMMAND)
+    setVisualMode(false)
+  })
+}
+
 function setEditingMode(mode) {
   globalState.mode = mode;
   if (vscode.workspace.workspaceFolders) {
@@ -193,8 +221,8 @@ function setVisualMode(enable) {
     if (globalState.visualMode) {
       globalState.visualAnchor = editor.selection.active;
     } else {
-        const position = editor.selection.active;
-        editor.selection = new vscode.Selection(position, position);
+      let position = editor.selection.active;
+      editor.selection = new vscode.Selection(position, position);
     }
   }
 }
