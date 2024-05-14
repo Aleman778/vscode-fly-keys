@@ -9,9 +9,10 @@
   "categories": [
     "Keymaps"
   ],
+  "publisher": "Aleman778",
   "repository": {
     "type": "git",
-    "url": "https://github.com/npm/cli.git"
+    "url": "https://github.com/Aleman778/vscode-fly-keys"
   },
   "activationEvents": [
     "onStartupFinished"
