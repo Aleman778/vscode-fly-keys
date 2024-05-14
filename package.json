@@ -7,8 +7,12 @@
     "vscode": "^1.88.0"
   },
   "categories": [
-    "Other"
+    "Keymaps"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/npm/cli.git"
+  },
   "activationEvents": [
     "onStartupFinished"
   ],  

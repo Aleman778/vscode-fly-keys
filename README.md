@@ -1,65 +1,32 @@
-# vscode-fly-keys README
+# vscode-fly-keys
 
-This is the README for your extension "vscode-fly-keys". After writing up a brief description, we recommend including the following sections.
+Reimplementation of emacs package xah-fly-keys in Visual Studio Code.
+This provides a modal editor experience similar to vim but with more ergonomic keybindings.
+The keybindings provided are sligtly different from default xah-fly-keys but all
+keybindings are customizable.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Features 3 modes similar to vim:
+- COMMAND mode `HOME` (default no characters are typed) 
+- INSERT mode  `F` (this is where you type characters)
+- VISUAL mode  `T` (toggles on/off is combined with COMMAND mode, works like holding shift down)
 
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+In COMMAND mode you can navigate and edit the document with these commands:
+- `o`/ `;`/ `l`/ `k` for moving cursor up/ right/ down/ left
+- `x`/ `c`/ `v` for cut/ copy/ paste
+- `y` for undo
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+Most things are configurable via keybindings editor, just search for `vscode-fly-keys`.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+This is in a very early stage of development, lots of missing keybindings.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release few basic commands for navigation, switching modes, cut/copy/paste and undo/redo.
