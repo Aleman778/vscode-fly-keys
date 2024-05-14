@@ -2,7 +2,7 @@
 
 Reimplementation of emacs package xah-fly-keys in Visual Studio Code.
 This provides a modal editor experience similar to vim but with more ergonomic keybindings.
-The keybindings provided are sligtly different from default xah-fly-keys but all
+The keybindings provided are slightly different from default xah-fly-keys but all
 keybindings are customizable.
 
 ## Features

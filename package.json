@@ -2,7 +2,7 @@
   "name": "vscode-fly-keys",
   "displayName": "vscode-fly-keys",
   "description": "VSCode implementation of emacs xah-fly-keys package which is an easier and more comfortable modal editor than vim.",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.88.0"
   },
@@ -76,6 +76,11 @@
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
+        "command": "vscode-fly-keys.toggleVisualMode",
+        "key": "escape",
+        "when": "editorTextFocus && vscode-fly-keys.visual"
+      },
+      {
         "command": "vscode-fly-keys.toLeaderMode",
         "key": "space",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
@@ -126,8 +131,13 @@
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
-        "command": "vscode-fly-keys.cursorWordPartRight",
-        "key": "p",
+        "command": "vscode-fly-keys.deleteWordPartLeft",
+        "key": "e",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.deleteWordPartRight",
+        "key": "r",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
       {
@@ -160,7 +170,103 @@
         "key": "y",
         "when": "editorTextFocus && vscode-fly-keys.mode == command"
       },
+      {
+        "command": "deleteLeft",
+        "key": "d",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "deleteRight",
+        "key": "5",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.focusPrevGroup",
+        "key": ",",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.focusNextGroup",
+        "key": ".",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.scrollRelativeToCursor",
+        "key": "u",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "editor.action.deleteLines",
+        "key": "g",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "vscode-fly-keys.toggleLineComment",
+        "key": "z",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "editor.action.marker.next",
+        "key": "\\",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "editor.action.marker.prev",
+        "key": "h",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "actions.find",
+        "key": "n",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
+      {
+        "command": "workbench.action.showCommands",
+        "key": "a",
+        "when": "editorTextFocus && vscode-fly-keys.mode == command"
+      },
 
+      {
+        "command": "editor.action.startFindReplaceAction",
+        "key": "enter",
+        "when": "editorFocus && findInputFocussed"
+      },
+      {
+        "command": "editor.action.previousMatchFindAction",
+        "key": "left",
+        "when": "editorFocus && (findInputFocussed || replaceInputFocussed)"
+      },
+      {
+        "command": "editor.action.nextMatchFindAction",
+        "key": "right",
+        "when": "editorFocus && (findInputFocussed || replaceInputFocussed)"
+      },
+
+      {
+        "command": "vscode-fly-keys.toKeymapI",
+        "key": "i",
+        "when": "editorTextFocus && vscode-fly-keys.mode == leader"
+      },
+      {
+        "command": "vscode-fly-keys.toKeymapJ",
+        "key": "j",
+        "when": "editorTextFocus && vscode-fly-keys.mode == leader"
+      },
+      {
+        "command": "vscode-fly-keys.toKeymapD",
+        "key": "d",
+        "when": "editorTextFocus && vscode-fly-keys.mode == leader"
+      },
+      {
+        "command": "vscode-fly-keys.toKeymapO",
+        "key": "o",
+        "when": "editorTextFocus && vscode-fly-keys.mode == leader"
+      },
+      {
+        "command": "vscode-fly-keys.replace",
+        "key": "r",
+        "when": "editorTextFocus && vscode-fly-keys.mode == leader"
+      },      
       {
         "command": "vscode-fly-keys.splitEditorToRightGroup",
         "key": "4",
@@ -170,7 +276,23 @@
         "command": "vscode-fly-keys.redo",
         "key": "y",
         "when": "editorTextFocus && vscode-fly-keys.mode == leader"
-      }
+      },
+      {
+        "command": "vscode-fly-keys.gotoBeginningOfFile",
+        "key": "h",
+        "when": "editorTextFocus && vscode-fly-keys.mode == leader"
+      },
+      {
+        "command": "vscode-fly-keys.gotoEndOfFile",
+        "key": "n",
+        "when": "editorTextFocus && vscode-fly-keys.mode == leader"
+      },
+
+      {
+        "command": "vscode-fly-keys.switchFile",
+        "key": "d",
+        "when": "editorTextFocus && vscode-fly-keys.mode == keymapI"
+      }      
     ]
   },
   "scripts": {

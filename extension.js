@@ -14,8 +14,12 @@ const globalState = {
 	mode: null,
   visualMode: false,
   visualAnchor: new vscode.Position(0, 0),
+  relativeIndex: 0,
+  prevLine: 0,
 	active: true
 }
+
+const relativeAtStrings = ['center', 'bottom', 'top']
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -33,11 +37,19 @@ function activate(context) {
         setEditingMode(MODE_COMMAND)
       }
     }),
+
     wrap('vscode-fly-keys.splitEditorToRightGroup', 'workbench.action.splitEditorToRightGroup'),
     wrap('vscode-fly-keys.copy', 'editor.action.clipboardCopyAction'),
     wrap('vscode-fly-keys.paste', 'editor.action.clipboardPasteAction'),
     wrap('vscode-fly-keys.undo', 'undo'),
     wrap('vscode-fly-keys.redo', 'redo'),
+    wrap('vscode-fly-keys.focusPrevGroup', 'workbench.action.focusPreviousGroup'),
+    wrap('vscode-fly-keys.focusNextGroup', 'workbench.action.focusNextGroup'),
+    wrap('vscode-fly-keys.toggleLineComment', 'editor.action.commentLine'),
+    wrap('vscode-fly-keys.replace', 'editor.action.startFindReplaceAction'),
+    wrap('vscode-fly-keys.switchFile', 'workbench.action.quickOpen'),
+    // wrap('vscode-fly-keys.', ''),
+
 		vscode.commands.registerCommand('vscode-fly-keys.cut', function() {
       const editor = vscode.window.activeTextEditor;
       if (editor) {
@@ -47,64 +59,124 @@ function activate(context) {
         }
         vscode.commands.executeCommand('editor.action.clipboardCutAction')
         editor.selection = new vscode.Selection(position, position);
+        setVisualMode(false)
       }
 		}),
+
   	vscode.commands.registerCommand('vscode-fly-keys.toggleExtension', function() {
 			globalState.active = !globalState.active;
 		}),
+
 		vscode.commands.registerCommand('vscode-fly-keys.toCommandMode', function() {
 			setEditingMode(MODE_COMMAND);
 		}),
+
 		vscode.commands.registerCommand('vscode-fly-keys.toInsertMode', function() {
 			setEditingMode(MODE_INSERT);
 		}),
+
 		vscode.commands.registerCommand('vscode-fly-keys.toggleVisualMode', function() {
       setVisualMode(!globalState.visualMode)
 		}),
+
 		vscode.commands.registerCommand('vscode-fly-keys.toLeaderMode', function() {
 			setEditingMode(MODE_LEADER);
 		}),
+
 		vscode.commands.registerCommand('vscode-fly-keys.toKeymapI', function() {
 			setEditingMode(MODE_KEYMAP_I);
 		}),
+
 		vscode.commands.registerCommand('vscode-fly-keys.toKeymapJ', function() {
 			setEditingMode(MODE_KEYMAP_J);
 		}),
+
 		vscode.commands.registerCommand('vscode-fly-keys.toKeymapD', function() {
 			setEditingMode(MODE_KEYMAP_D);
 		}),
+
 		vscode.commands.registerCommand('vscode-fly-keys.toKeymapO', function() {
 			setEditingMode(MODE_KEYMAP_O);
 		}),
+
     vscode.commands.registerCommand('vscode-fly-keys.cursorUp', function() {
 			vscode.commands.executeCommand('cursorMove', { 
         to: 'up', select: globalState.visualMode 
       })
 		}),
+
     vscode.commands.registerCommand('vscode-fly-keys.cursorRight', function() {
 			vscode.commands.executeCommand('cursorMove', { 
         to: 'right', select: globalState.visualMode 
       })
 		}),
+
     vscode.commands.registerCommand('vscode-fly-keys.cursorDown', function() {
 			vscode.commands.executeCommand('cursorMove', { 
         to: 'down', select: globalState.visualMode 
       })
 		}),
+
     vscode.commands.registerCommand('vscode-fly-keys.cursorLeft', function() {
 			vscode.commands.executeCommand('cursorMove', { 
         to: 'left', select: globalState.visualMode 
       })
 		}),
+
+    vscode.commands.registerCommand('vscode-fly-keys.scrollRelativeToCursor', function () {
+      const line = vscode.window.activeTextEditor.selection.start.line;
+      if (globalState.prevLine != line) {
+        globalState.relativeIndex = 0
+      }
+      globalState.prevLine = line
+      vscode.commands.executeCommand("revealLine", {
+        lineNumber: line,
+        at: relativeAtStrings[globalState.relativeIndex++ % 3]
+      });
+    }),
+    
+    vscode.commands.registerCommand('vscode-fly-keys.gotoBeginningOfFile', function () {
+      const editor = vscode.window.activeTextEditor;
+      if (editor) {
+        setCursorPosition(editor, new vscode.Position(0, 0))
+        vscode.commands.executeCommand("revealLine", {
+          lineNumber: 0, at: "top"
+        });
+      }
+      setEditingMode(MODE_COMMAND)
+    }),
+    
+    vscode.commands.registerCommand('vscode-fly-keys.gotoEndOfFile', function () {
+      const editor = vscode.window.activeTextEditor;
+      if (editor) {
+        setCursorPosition(editor, new vscode.Position(editor.document.lineCount, 0))
+        vscode.commands.executeCommand("revealLine", {
+          lineNumber: editor.document.lineCount, at: "bottom"
+        });
+      }
+      setEditingMode(MODE_COMMAND)
+    }),
+    
     vscode.commands.registerCommand('vscode-fly-keys.cursorWordPartLeft', function() {
 			moveCursorToSubword(-1)
 		}),
+
     vscode.commands.registerCommand('vscode-fly-keys.cursorWordPartRight', function() {
 			moveCursorToSubword(1)
 		}),
+    
+    vscode.commands.registerCommand('vscode-fly-keys.deleteWordPartLeft', function() {
+			moveCursorToSubword(-1, true)
+		}),
+
+    vscode.commands.registerCommand('vscode-fly-keys.deleteWordPartRight', function() {
+			moveCursorToSubword(1, true)
+		}),
+
 		vscode.commands.registerCommand('vscode-fly-keys.cursorLineStart', function() {
       moveCursorToLineOrBlock(-1)
 		}),
+
 		vscode.commands.registerCommand('vscode-fly-keys.cursorLineEnd', function() {
       moveCursorToLineOrBlock(1)
 		})
@@ -113,7 +185,7 @@ function activate(context) {
   setEditingMode(MODE_COMMAND)
 }
 
-function moveCursorToSubword(dir) {
+function moveCursorToSubword(dir, kill = false) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage('No active text editor!');
@@ -151,11 +223,17 @@ function moveCursorToSubword(dir) {
     }
 
     if (newPosition) {
-      setCursorPosition(editor, newPosition);
+      if (kill) {
+        editor.edit(editBuilder => {
+          editBuilder.delete(new vscode.Selection(currentPosition, newPosition))
+        })
+      } else {
+        setCursorPosition(editor, newPosition);
+      }
     }
 }
 
-function moveCursorToLineOrBlock (dir) {
+function moveCursorToLineOrBlock(dir) {
   const editor = vscode.window.activeTextEditor;
   if (editor) {
     const position = editor.selection.active;
