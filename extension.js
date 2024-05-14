@@ -28,7 +28,7 @@ function activate(context) {
       if (vscode.window.activeTextEditor && globalState.mode == MODE_INSERT) {
         await vscode.commands.executeCommand('default:type', { text });
       } else if (vscode.window.activeTextEditor && globalState.mode == MODE_COMMAND) {
-        vscode.window.showInformationMessage(`Run command: ${text}`);
+        vscode.window.showInformationMessage(`Unknown command for key: ${text}`);
       } else {
         setEditingMode(MODE_COMMAND)
       }
@@ -54,30 +54,24 @@ function activate(context) {
 		}),
 		vscode.commands.registerCommand('vscode-fly-keys.toCommandMode', function() {
 			setEditingMode(MODE_COMMAND);
-			vscode.window.showInformationMessage('Command mode active');
 		}),
 		vscode.commands.registerCommand('vscode-fly-keys.toInsertMode', function() {
 			setEditingMode(MODE_INSERT);
-			vscode.window.showInformationMessage('Insert mode active');
 		}),
 		vscode.commands.registerCommand('vscode-fly-keys.toggleVisualMode', function() {
       setVisualMode(!globalState.visualMode)
-			vscode.window.showInformationMessage(`Visual mode active: ${globalState.visualMode}`);
 		}),
 		vscode.commands.registerCommand('vscode-fly-keys.toLeaderMode', function() {
 			setEditingMode(MODE_LEADER);
 		}),
 		vscode.commands.registerCommand('vscode-fly-keys.toKeymapI', function() {
 			setEditingMode(MODE_KEYMAP_I);
-			vscode.window.showInformationMessage('Command mode active');
 		}),
 		vscode.commands.registerCommand('vscode-fly-keys.toKeymapJ', function() {
 			setEditingMode(MODE_KEYMAP_J);
-			vscode.window.showInformationMessage('Insert mode active');
 		}),
 		vscode.commands.registerCommand('vscode-fly-keys.toKeymapD', function() {
 			setEditingMode(MODE_KEYMAP_D);
-			vscode.window.showInformationMessage('Visual mode active');
 		}),
 		vscode.commands.registerCommand('vscode-fly-keys.toKeymapO', function() {
 			setEditingMode(MODE_KEYMAP_O);
@@ -116,9 +110,7 @@ function activate(context) {
 		})
 	)
   
-  vscode.window.showInformationMessage('Command mode active');
   setEditingMode(MODE_COMMAND)
-  setVisualMode(false)
 }
 
 function moveCursorToSubword(dir) {
@@ -191,7 +183,6 @@ function wrap(ourId, execId) {
   return vscode.commands.registerCommand(ourId, function () {
     vscode.commands.executeCommand(execId)
     setEditingMode(MODE_COMMAND)
-    setVisualMode(false)
   })
 }
 
@@ -206,6 +197,7 @@ function setEditingMode(mode) {
     'vscode-fly-keys.mode',
     mode
   )
+  setVisualMode(false)
 }
 
 function setVisualMode(enable) {
